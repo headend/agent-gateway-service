@@ -1,7 +1,7 @@
 package main
 
 import (
-	"agent-getway-service/model"
+	"github.com/headend/agent-gateway-service/model"
 	"bufio"
 	"encoding/json"
 	"fmt"
@@ -9,13 +9,12 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"agent-getway-service/utils"
+	"github.com/headend/agent-gateway-service/utils"
 )
 
 
 func main() {
 	server := socketio.NewServer(nil)
-
 	server.OnConnect("/", func(s socketio.Conn) error {
 		s.SetContext("")
 		fmt.Println("connected:", s.ID())
