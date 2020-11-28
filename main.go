@@ -1,7 +1,6 @@
 package main
 
 import (
-	"github.com/headend/agent-gateway-service/model"
 	"bufio"
 	"encoding/json"
 	"fmt"
@@ -9,12 +8,17 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"github.com/headend/agent-gateway-service/utils"
+	"github.com/headend/share-module/file-and-directory"
+	share_model "github.com/headend/share-module/model"
 )
 
 
 func main() {
-	server := socketio.NewServer(nil)
+	server, err := socketio.NewServer(nil)
+	if err != nil {
+		log.Fatal(err)
+	}
+	//server := socketio.NewServer(nil)
 	server.OnConnect("/", func(s socketio.Conn) error {
 		s.SetContext("")
 		fmt.Println("connected:", s.ID())
@@ -74,15 +78,15 @@ func main() {
 			Send file info to rom
 			 */
 			// get md5 from file
-			md5str, err := utils.GetMd5FromFile("asset/" + command)
+			md5str, err := file_and_directory.GetMd5FromFile("asset/" + command)
 			if err != nil{
 				panic(err)
 			} else {
-				fileSize, err := utils.GetFileSizeInByte("asset/" + command)
+				fileSize, err := file_and_directory.GetFileSizeInByte("asset/" + command)
 				if err != nil{
 					panic(err)
 				} else {
-					fileInfo2Send := model.WorkerUpdateSignal{
+					fileInfo2Send := share_model.WorkerUpdateSignal{
 						FileName:       command,
 						FilePath:       command,
 						FileSizeInByte: fileSize,
