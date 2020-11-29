@@ -5,20 +5,50 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/googollee/go-socket.io"
+	"github.com/headend/share-module/configuration"
+	"github.com/headend/share-module/configuration/static-config"
+	"github.com/headend/share-module/file-and-directory"
+	share_model "github.com/headend/share-module/model"
 	"log"
 	"net/http"
 	"os"
-	"github.com/headend/share-module/file-and-directory"
-	share_model "github.com/headend/share-module/model"
 )
 
 
 func main() {
+	log.SetFlags(log.LstdFlags | log.Lshortfile)
+	// load config
+	var conf  configuration.Conf
+	conf.LoadConf()
+
+	/*
+		Xử lý thông tin kết nối
+		Nếu thông tin không có trong config thì lấy từ static config
+	*/
+
+	var gwHost string
+	if conf.AgentGateway.Gateway != "" {
+		gwHost = conf.AgentGateway.Gateway
+	} else {
+		if conf.AgentGateway.Host != "" {
+			gwHost = conf.AgentGateway.Host
+		} else {
+			gwHost = static_config.GatewayHost
+		}
+	}
+
+
+	var gwPort uint16
+	if conf.AgentGateway.Port != 0 {
+		gwPort = conf.AgentGateway.Port
+	} else {
+		gwPort = static_config.GatewayPort
+	}
+	// make socket
 	server, err := socketio.NewServer(nil)
 	if err != nil {
 		log.Fatal(err)
 	}
-	//server := socketio.NewServer(nil)
 	server.OnConnect("/", func(s socketio.Conn) error {
 		s.SetContext("")
 		fmt.Println("connected:", s.ID())
@@ -56,10 +86,12 @@ func main() {
 
 	go server.Serve()
 	defer server.Close()
-
 	http.Handle("/socket.io/", server)
+	//http.Serve(ln,server)
 	http.Handle("/", http.FileServer(http.Dir("./asset")))
-	log.Println("Serving at localhost:8000...")
+
+	listenAddress := fmt.Sprintf("%s:%d", gwHost, gwPort)
+	log.Println("Serving at ", listenAddress)
 	reader := bufio.NewReader(os.Stdin)
 	go func() {
 		for {
@@ -105,7 +137,8 @@ func main() {
 			 */
 		}
 	}()
-	log.Fatal(http.ListenAndServe(":8000", nil))
+	// runserver here
+	log.Fatal(http.ListenAndServe(listenAddress, nil))
 }
 
 func SendMessageToRom(server *socketio.Server, rom string, command string) {
