@@ -2,6 +2,17 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e08fdfb7-38fe-476b-8730-71586ed71884" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/broadcast-to-agentd/send-file.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/broadcast-to-agentd/send-message.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/event-handle/agentctl.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/event-handle/onconnection.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/event-handle/ondisconnection.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/event-handle/onerr.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/event-handle/onlog.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/event-handle/onnotice.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/event-handle/warmup.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/utils/agent-service.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/utils/utils.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
@@ -37,7 +48,7 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="go.import.settings.migrated" value="true" />
     <property name="go.tried.to.enable.integration.vgo.integrator" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../iptv-agentd" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -63,9 +74,9 @@
     <integration-enabled>true</integration-enabled>
   </component>
   <component name="WindowStateProjectService">
-    <state x="776" y="310" width="424" height="484" key="FileChooserDialogImpl" timestamp="1606655121296">
+    <state x="776" y="310" width="424" height="484" key="FileChooserDialogImpl" timestamp="1608631453348">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
-    <state x="776" y="310" width="424" height="484" key="FileChooserDialogImpl/67.27.1853.1053@67.27.1853.1053" timestamp="1606655121296" />
+    <state x="776" y="310" width="424" height="484" key="FileChooserDialogImpl/67.27.1853.1053@67.27.1853.1053" timestamp="1608631453348" />
   </component>
 </project>
