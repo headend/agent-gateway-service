@@ -25,6 +25,7 @@ func Warmup(conf configuration.Conf, server *socketio.Server) {
 		// Make warup sting
 		warmupMessageData.EventTime = time.Now().Unix()
 		warmupMessageData.Data = warmupData
+		warmupMessageData.WupType = "interval"
 		warmupMessageString, err := warmupMessageData.GetJsonString()
 		if err != nil {
 			log.Println(err)

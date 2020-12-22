@@ -65,6 +65,8 @@ github.com/headend/share-module v0.0.0-20201221093338-64f7635ff5d4 h1:DSdBBlNabL
 github.com/headend/share-module v0.0.0-20201221093338-64f7635ff5d4/go.mod h1:vXgMTKM0WciE8f+tARY7tewhwzotSSYM/6AzqYkna3Q=
 github.com/headend/share-module v0.0.0-20201222091717-a833b8b42d9c h1:ZZbW/MpEJcwOFg7vnfxrA5qL6ASaI1oLh8mca79SOv8=
 github.com/headend/share-module v0.0.0-20201222091717-a833b8b42d9c/go.mod h1:vXgMTKM0WciE8f+tARY7tewhwzotSSYM/6AzqYkna3Q=
+github.com/headend/share-module v0.0.0-20201222161010-f033e4fa2cf9 h1:MJIqlHy3tMoMz6kzqTazKPB04/pNkatNnIDjwFuIl18=
+github.com/headend/share-module v0.0.0-20201222161010-f033e4fa2cf9/go.mod h1:vXgMTKM0WciE8f+tARY7tewhwzotSSYM/6AzqYkna3Q=
 github.com/jinzhu/gorm v1.9.16/go.mod h1:G3LB3wezTOWM2ITLzPxEXgSkOXAntiLHS7UdBefADcs=
 github.com/jinzhu/inflection v1.0.0/go.mod h1:h+uFLlag+Qp1Va5pdKtLDYj+kHp5pxUVkryuEj+Srlc=
 github.com/jinzhu/now v1.0.1/go.mod h1:d3SSVoowX0Lcu0IBviAWJpolVfI5UJVZZ7cO71lE/z8=
