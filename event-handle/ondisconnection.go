@@ -27,6 +27,7 @@ func OnDisconnection(s socketio.Conn, reason string, config *configuration.Conf)
 		warmupDataQueue := warmup.WarmupMessage{
 			EventTime: time.Now().Unix(),
 			Data:      warmupData,
+			WupType: "event",
 		}
 		var warmupMsgString string
 		warmupMsgString, err := warmupDataQueue.GetJsonString()
