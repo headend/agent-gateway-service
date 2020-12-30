@@ -56,7 +56,7 @@ func AgentControl(conf configuration.Conf, server *socketio.Server) {
 			server.ForEach("/", socket_event.NhomChung, func(conn socketio.Conn) {
 				tmpip, _ := selfUtils.GetIpAndPortFromRemoteAddr(conn.RemoteAddr().String())
 				if tmpip == res.Agents[0].IpControl {
-					conn.Emit(string(msg.Value))
+					conn.Emit(socket_event.DieuKhien, string(msg.Value))
 				}
 			})
 		}()

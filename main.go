@@ -7,13 +7,15 @@ import (
 	selfUtils "github.com/headend/agent-gateway-service/utils"
 	"github.com/headend/share-module/configuration"
 	"github.com/headend/share-module/configuration/socket-event"
-	"github.com/headend/share-module/model"
+	agentModel "github.com/headend/share-module/model/agentd"
 	"log"
 	"net/http"
+	"strconv"
 )
 
 
 func main() {
+	log.SetFlags(log.LstdFlags | log.Lshortfile)
 
 	// load config
 	var conf configuration.Conf
@@ -48,43 +50,66 @@ func main() {
 
 	server.OnEvent("/", "monitor-response", func(s socketio.Conn, msg string) {
 		content := fmt.Sprintf("On %s result: %s", s.RemoteAddr(), msg)
-		log.Print(content)
+		log.Printf(content)
 		go func() {
-			var onProfileChangeStatus model.ProfileChangeStatus
+			var onProfileChangeStatus agentModel.ProfileChangeStatus
 			err := onProfileChangeStatus.LoadFromJsonString(msg)
 			if err != nil {
 				log.Println(err)
 				return
 			}
-			if onProfileChangeStatus == (model.ProfileChangeStatus{}) {
+			if onProfileChangeStatus == (agentModel.ProfileChangeStatus{}) {
 				err2 := fmt.Errorf("Invalid data input on profile change status type: %s", msg)
 				log.Println(err2)
 				return
 			}
+			log.Printf("%#v", onProfileChangeStatus)
 			// Now update profile
-			
+			err2 := selfUtils.OnMonitorChangeUpdateStatus(conf, onProfileChangeStatus)
+			if err2 != nil {
+				log.Println(err)
+			}
 		}()
 	})
 
-	server.OnEvent("/", "profile-monitor-request", func(s socketio.Conn, msg string) {
-		content := fmt.Sprintf("On %s result: %s", s.RemoteAddr(), msg)
-		log.Print(content)
-		go func() {
+	server.OnEvent("/", "profile-monitor-request", func(s socketio.Conn, monitorType string) {
+		content := fmt.Sprintf("On %s result: %s", s.RemoteAddr(), monitorType)
+		if mType, err := strconv.Atoi(monitorType); err != nil {
+			fmt.Println(content, "is not an integer.")
+		} else {
+			go func() {
+				ip, _ := selfUtils.GetIpAndPortFromRemoteAddr(s.RemoteAddr().String())
+				res, err := selfUtils.GetProfileMonitorByAgent(conf, ip, mType)
+				if err != nil {
+					log.Println(err)
+					return
+				}
+				var AgentdMonitorDataInput agentModel.MonitorInputForAgent
+				var ProfileDataToAgentList []agentModel.ProfileForAgentdElement
+				for _, profile := range res.Profiles {
+					//log.Printf("origin data %#v", profile)
+					ProfileDataToAgent := agentModel.ProfileForAgentdElement{
+						MonitorId:   profile.MonitorId,
+						ProfileId:   profile.MonitorId,
+						AgentId:     profile.AgentId,
+						Status:      profile.StatusId,
+						VideoStatus: profile.StatusVideo,
+						MulticastIP: profile.MulticastIp,
+					}
+					ProfileDataToAgentList = append(ProfileDataToAgentList, ProfileDataToAgent)
+				}
+				AgentdMonitorDataInput.MonitorType = mType
+				AgentdMonitorDataInput.ProfileList = ProfileDataToAgentList
 
-			var onProfileChangeStatus model.ProfileChangeStatus
-			err := onProfileChangeStatus.LoadFromJsonString(msg)
-			if err != nil {
-				log.Println(err)
-				return
-			}
-			if onProfileChangeStatus == (model.ProfileChangeStatus{}) {
-				err2 := fmt.Errorf("Invalid data input on profile change status type: %s", msg)
-				log.Println(err2)
-				return
-			}
-			// Now update profile
-
-		}()
+				ProfileDataToAgentListString, err := AgentdMonitorDataInput.GetJsonString()
+				log.Println(ProfileDataToAgentListString)
+				if err != nil {
+					log.Println(err)
+				} else {
+					s.Emit("profile-monitor-response", ProfileDataToAgentListString)
+				}
+			}()
+		}
 	})
 
 	server.OnEvent("/", "bye", func(s socketio.Conn) string {
@@ -118,6 +143,10 @@ func main() {
 	// runserver here
 	log.Fatal(http.ListenAndServe(listenAddress, nil))
 }
+
+
+
+
 
 
 

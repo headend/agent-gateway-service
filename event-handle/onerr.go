@@ -6,6 +6,6 @@ import (
 )
 
 func OnErr(s socketio.Conn, e error) (int, error) {
-	s.Close()
+	//s.Close()
 	return fmt.Printf("Close connection from %s meet error: %s", s.RemoteAddr().String(), e.Error())
 }
