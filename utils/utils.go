@@ -3,6 +3,7 @@ package utils
 import (
 	"github.com/headend/share-module/configuration"
 	static_config "github.com/headend/share-module/configuration/static-config"
+	"log"
 	"strings"
 )
 
@@ -21,6 +22,8 @@ func GetGWConnectionInfo(conf configuration.Conf) (string, uint16) {
 			gwHost = conf.AgentGateway.Host
 		} else {
 			gwHost = static_config.GatewayHost
+			log.Println("Get Host config from static")
+			log.Printf("%#v", conf.AgentGateway)
 		}
 	}
 
@@ -29,6 +32,7 @@ func GetGWConnectionInfo(conf configuration.Conf) (string, uint16) {
 		gwPort = conf.AgentGateway.Port
 	} else {
 		gwPort = static_config.GatewayPort
+		log.Println("Get Port config from static")
 	}
 	return gwHost, gwPort
 }

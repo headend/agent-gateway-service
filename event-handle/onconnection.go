@@ -3,14 +3,12 @@ package event_handle
 import (
 	"fmt"
 	socketio "github.com/googollee/go-socket.io"
-	agentpb "github.com/headend/iptv-agent-service/proto"
+	selfUtils "github.com/headend/agent-gateway-service/utils"
 	messagequeue "github.com/headend/share-module/MQ"
 	"github.com/headend/share-module/configuration"
 	"github.com/headend/share-module/configuration/socket-event"
 	static_config "github.com/headend/share-module/configuration/static-config"
 	"github.com/headend/share-module/model/register"
-	selfUtils "github.com/headend/agent-gateway-service/utils"
-	"github.com/headend/share-module/model"
 	"log"
 	"strings"
 	"time"
@@ -42,13 +40,13 @@ func ListenConnection(s socketio.Conn, server *socketio.Server, conf *configurat
 	if AgentInfo != nil {
 		if AgentInfo.IsMonitor {
 			if AgentInfo.SignalMonitor {
-				err2 := initAgentdWorkerType(s,AgentInfo,static_config.StartMonitorSignal)
+				err2 := selfUtils.InitAgentdWorkerType(s,AgentInfo,static_config.StartMonitorSignal)
 				if err2 != nil {
 					return err2
 				}
 			}
 			if AgentInfo.VideoMonitor {
-				err3 := initAgentdWorkerType(s,AgentInfo,static_config.StartMonitorVideo)
+				err3 := selfUtils.InitAgentdWorkerType(s,AgentInfo,static_config.StartMonitorVideo)
 				if err3 != nil {
 					return err3
 				}
@@ -58,24 +56,4 @@ func ListenConnection(s socketio.Conn, server *socketio.Server, conf *configurat
 	return nil
 }
 
-func initAgentdWorkerType(s socketio.Conn, AgentInfo *agentpb.Agent, ControlType int) error {
-	controlData := model.AgentCTLQueueRequest{
-		AgentCtlRequest: model.AgentCtlRequest{
-			AgentId:     AgentInfo.Id,
-			ControlId:   0,
-			ControlType: ControlType,
-			RunThread:   int(AgentInfo.RunThread),
-			TunnelData:  nil,
-		},
-		ControlType: ControlType,
-		EventTime:   time.Now().Unix(),
-	}
-	ctlMessageString, err := controlData.GetJsonString()
-	if err != nil {
-		log.Println(err)
-		return err
-	} else {
-		s.Emit(socket_event.DieuKhien, ctlMessageString)
-	}
-	return nil
-}
+

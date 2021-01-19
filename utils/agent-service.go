@@ -2,10 +2,14 @@ package utils
 
 import (
 	"context"
+	socketio "github.com/googollee/go-socket.io"
 	agentpb "github.com/headend/iptv-agent-service/proto"
 	"github.com/headend/share-module/configuration"
+	socket_event "github.com/headend/share-module/configuration/socket-event"
+	"github.com/headend/share-module/model"
 	agentModel "github.com/headend/share-module/model/agentd"
 	"github.com/headend/share-module/mygrpc/connection"
+	"log"
 	"time"
 )
 
@@ -52,15 +56,16 @@ func GetProfileMonitorByAgent(conf configuration.Conf, ip string, monitorType in
 	return res, err
 }
 
-func OnMonitorChangeUpdateStatus(conf configuration.Conf, onProfileChangeStatus agentModel.ProfileChangeStatus) error {
+func OnMonitorChangeUpdateStatus(conf configuration.Conf, onProfileChangeStatus agentModel.ProfileChangeStatus) (monitorInfo *agentpb.ProfileMonitorElement , err error) {
 	var rpcConnection connection.RpcClient
+	var result *agentpb.ProfileMonitorElement
 	rpcConnection.InitializeClient(conf.RPC.Agent.Gateway, conf.RPC.Agent.Port)
 	defer rpcConnection.Client.Close()
 	agentClient := agentpb.NewAgentServiceClient(rpcConnection.Client)
 	// Check Agent exists
 	c, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
-	_, err2 := (agentClient).MonitorUpdateStatus(c, &agentpb.MonitorUpdateStatusRequest{
+	res, err2 := (agentClient).MonitorUpdateStatus(c, &agentpb.MonitorUpdateStatusRequest{
 		MonitorId:       onProfileChangeStatus.MonitorID,
 		MonitorType:     int64(onProfileChangeStatus.MonitorType),
 		NewStatus:       onProfileChangeStatus.NewStatus,
@@ -68,5 +73,32 @@ func OnMonitorChangeUpdateStatus(conf configuration.Conf, onProfileChangeStatus 
 		NewVideoStatus:  onProfileChangeStatus.NewVideoStatus,
 		NewAudioStatus:  onProfileChangeStatus.NewAudioStatus,
 	})
-	return err2
+	if err2 != nil {
+		return result, err2
+	} else {
+		result = res.Profiles[0]
+		return res.Profiles[0], nil
+	}
+}
+
+func InitAgentdWorkerType(s socketio.Conn, AgentInfo *agentpb.Agent, ControlType int) error {
+	controlData := model.AgentCTLQueueRequest{
+		AgentCtlRequest: model.AgentCtlRequest{
+			AgentId:     AgentInfo.Id,
+			ControlId:   0,
+			ControlType: ControlType,
+			RunThread:   int(AgentInfo.RunThread),
+			TunnelData:  nil,
+		},
+		ControlType: ControlType,
+		EventTime:   time.Now().Unix(),
+	}
+	ctlMessageString, err := controlData.GetJsonString()
+	if err != nil {
+		log.Println(err)
+		return err
+	} else {
+		s.Emit(socket_event.DieuKhien, ctlMessageString)
+	}
+	return nil
 }
