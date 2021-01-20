@@ -9,8 +9,8 @@ import (
 	"github.com/headend/share-module/configuration/socket-event"
 	static_config "github.com/headend/share-module/configuration/static-config"
 	file_and_directory "github.com/headend/share-module/file-and-directory"
-	agentModel "github.com/headend/share-module/model/agentd"
 	shareModel "github.com/headend/share-module/model"
+	agentModel "github.com/headend/share-module/model/agentd"
 	"log"
 	"net/http"
 	"os"
@@ -234,6 +234,8 @@ func main() {
 	go event_handle.AgentControl(conf, server)
 	// [Warmup] check client connect, then send warmup message
 	go event_handle.Warmup(conf, server)
+	// Version control
+	go event_handle.PingPing(conf, server)
 	// runserver here
 	log.Fatal(http.ListenAndServe(listenAddress, nil))
 }
