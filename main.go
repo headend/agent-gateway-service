@@ -145,7 +145,7 @@ func main() {
 						// send to update handle
 						filee := file_and_directory.MyFile{Path: static_config.WorkerVersionFile}
 						var updateInfo shareModel.WorkerUpdateSignal
-						updateInfo.FilePath = static_config.WorkerVersionFile
+						updateInfo.FilePath = static_config.AgentdWorkerPath
 						updateInfo.FileName = static_config.AgentdWorkerName
 						updateInfo.Md5, _ = filee.GetMd5FromFile(static_config.WorkerVersionFile)
 						updateInfo.FileSizeInByte, _ = filee.GetFileSizeInByte(static_config.WorkerVersionFile)
