@@ -131,6 +131,7 @@ func main() {
 				if newWorkerVer, err2 := strconv.ParseFloat(newWorkerVerStr, 32); err2 == nil {
 					if newWorkerVer != cliWorkerVer {
 						// send to control update message
+						log.Println("Need update...")
 						var updateMessage string
 						controlData := shareModel.AgentCtlRequest{
 							AgentId:     0,
@@ -149,6 +150,7 @@ func main() {
 						updateInfo.Md5, _ = filee.GetMd5FromFile(static_config.WorkerVersionFile)
 						updateInfo.FileSizeInByte, _ = filee.GetFileSizeInByte(static_config.WorkerVersionFile)
 						updateInfoStr, _ := updateInfo.GetJsonString()
+						log.Println("Send update...")
 						s.Emit(socket_event.UpdateWorker, updateInfoStr)
 					}
 				} else {
