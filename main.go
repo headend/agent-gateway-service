@@ -126,7 +126,7 @@ func main() {
 			filee := file_and_directory.MyFile{Path: worker_version_file}
 			newWorkerVerStr, err1 := filee.Read()
 			if err1 != nil {
-				log.Println(err)
+				log.Println(err1)
 			} else {
 				if newWorkerVer, err2 := strconv.ParseFloat(newWorkerVerStr, 32); err2 == nil {
 					if newWorkerVer != cliWorkerVer {
