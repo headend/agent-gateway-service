@@ -130,31 +130,11 @@ func main() {
 			} else {
 				if newWorkerVer, err2 := strconv.ParseFloat(newWorkerVerStr, 32); err2 == nil {
 					if newWorkerVer != cliWorkerVer {
-						// send to control update message
-						log.Println("Need update...")
-						var updateMessage string
-						controlData := shareModel.AgentCtlRequest{
-							AgentId:     0,
-							ControlId:   0,
-							ControlType: static_config.UpdateWorker,
-							RunThread:   0,
-							TunnelData:  nil,
-						}
-						updateMessage, _ = controlData.GetJsonString()
-						s.Emit(socket_event.DieuKhien, updateMessage)
-						// send to update handle
-						filee := file_and_directory.MyFile{Path: static_config.WorkerVersionFile}
-						var updateInfo shareModel.WorkerUpdateSignal
-						updateInfo.FilePath = static_config.AgentdWorkerPath
-						updateInfo.FileName = static_config.AgentdWorkerName
-						updateInfo.Md5, _ = filee.GetMd5FromFile(static_config.WorkerVersionFile)
-						updateInfo.FileSizeInByte, _ = filee.GetFileSizeInByte(static_config.WorkerVersionFile)
-						updateInfoStr, _ := updateInfo.GetJsonString()
-						log.Println("Send update...")
-						s.Emit(socket_event.UpdateWorker, updateInfoStr)
+						SendUpdate(s)
 					}
 				} else {
 					log.Println(err)
+					SendUpdate(s)
 				}
 			}
 		} else {
@@ -240,6 +220,31 @@ func main() {
 	go event_handle.PingPing(conf, server)
 	// runserver here
 	log.Fatal(http.ListenAndServe(listenAddress, nil))
+}
+
+func SendUpdate(s socketio.Conn) {
+	// send to control update message
+	log.Println("Need update...")
+	var updateMessage string
+	controlData := shareModel.AgentCtlRequest{
+		AgentId:     0,
+		ControlId:   0,
+		ControlType: static_config.UpdateWorker,
+		RunThread:   0,
+		TunnelData:  nil,
+	}
+	updateMessage, _ = controlData.GetJsonString()
+	s.Emit(socket_event.DieuKhien, updateMessage)
+	// send to update handle
+	filee := file_and_directory.MyFile{Path: static_config.WorkerVersionFile}
+	var updateInfo shareModel.WorkerUpdateSignal
+	updateInfo.FilePath = static_config.AgentdWorkerPath
+	updateInfo.FileName = static_config.AgentdWorkerName
+	updateInfo.Md5, _ = filee.GetMd5FromFile(static_config.AgentdWorkerPath)
+	updateInfo.FileSizeInByte, _ = filee.GetFileSizeInByte(static_config.WorkerVersionFile)
+	updateInfoStr, _ := updateInfo.GetJsonString()
+	log.Println("Send update...")
+	s.Emit(socket_event.UpdateWorker, updateInfoStr)
 }
 
 
