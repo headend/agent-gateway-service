@@ -134,11 +134,11 @@ func main() {
 					}
 				} else {
 					log.Println(err)
-					SendUpdate(s)
 				}
 			}
 		} else {
 			log.Println(err)
+			SendUpdate(s)
 		}
 	})
 
