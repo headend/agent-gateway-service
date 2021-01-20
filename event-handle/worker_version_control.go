@@ -23,14 +23,18 @@ func PingPing(conf configuration.Conf, server *socketio.Server) {
 	for {
 		// 1. cập nhật version worker
 		appToRun := fmt.Sprintf("%s/%s", static_config.GatewayStorage, static_config.AgentdWorkerName)
-		err, exitCode, stdout, stderr := shellout.RunExternalCmd(appToRun, []string{"-v"}, 5)
+		err, exitCode, stdout, stderr := shellout.RunExternalCmd(appToRun, []string{"-v", "version"}, 5)
 		if err != nil{
 			log.Println("Can not get worker version from storage")
 			log.Println(err)
+			time.Sleep(pingInterval * time.Second)
+			continue
 		}
 		if exitCode == 0 {
 			if stdout == "" {
 				log.Println("Can not get worker version")
+				time.Sleep(pingInterval * time.Second)
+				continue
 			} else {
 				if _, errLoadV := strconv.ParseFloat(stdout, 32); err == nil {
 					filee := file_and_directory.MyFile{Path: static_config.WorkerVersionFile}
