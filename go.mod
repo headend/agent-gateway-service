@@ -10,6 +10,6 @@ require (
 	github.com/headend/share-module v0.0.0-20210120170123-1d1d3cc4f46f
 	golang.org/x/net v0.0.0-20210119194325-5f4716e94777 // indirect
 	golang.org/x/sys v0.0.0-20210119212857-b64e53b001e4 // indirect
-	google.golang.org/genproto v0.0.0-20210120162456-f5e8c5e2aaf2 // indirect
+	google.golang.org/genproto v0.0.0-20210121164019-fc48d45331c7 // indirect
 	google.golang.org/grpc v1.35.0
 )
