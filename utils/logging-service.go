@@ -13,6 +13,7 @@ import (
 )
 
 func DoWriNonitorLog(conf configuration.Conf, logData loggingpb.MonitorLogsRequest) {
+	log.Println(logData)
 	var rpcConnection connection.RpcClient
 	rpcConnection.InitializeClient(conf.RPC.Logging.Gateway, conf.RPC.Logging.Port)
 	defer rpcConnection.Client.Close()

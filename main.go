@@ -78,6 +78,7 @@ func main() {
 			}
 			// do write log
 			logData := selfUtils.MakeLogInDataRequest(onProfileChangeStatus, monitorInfo)
+			log.Println("Write log")
 			selfUtils.DoWriNonitorLog(conf, logData)
 		}()
 	})
