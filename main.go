@@ -5,16 +5,19 @@ import (
 	"github.com/googollee/go-socket.io"
 	"github.com/headend/agent-gateway-service/event-handle"
 	selfUtils "github.com/headend/agent-gateway-service/utils"
+	messagequeue "github.com/headend/share-module/MQ"
 	"github.com/headend/share-module/configuration"
 	"github.com/headend/share-module/configuration/socket-event"
 	static_config "github.com/headend/share-module/configuration/static-config"
 	file_and_directory "github.com/headend/share-module/file-and-directory"
 	shareModel "github.com/headend/share-module/model"
 	agentModel "github.com/headend/share-module/model/agentd"
+	wupModel "github.com/headend/share-module/model/warmup"
 	"log"
 	"net/http"
 	"os"
 	"strconv"
+	"time"
 )
 
 
@@ -121,6 +124,8 @@ func main() {
 
 	server.OnEvent("/", socket_event.PongPong, func(s socketio.Conn, pongMsg string) {
 		if cliWorkerVer, err := strconv.ParseFloat(pongMsg, 32); err == nil {
+			// update version
+			MakeVersioUpdateMessage(s, pongMsg, conf)
 			// get worker version on server
 			worker_version_file := static_config.WorkerVersionFile
 			filee := file_and_directory.MyFile{Path: worker_version_file}
@@ -222,6 +227,24 @@ func main() {
 	log.Fatal(http.ListenAndServe(listenAddress, nil))
 }
 
+func MakeVersioUpdateMessage(s socketio.Conn, pongMsg string, conf configuration.Conf) {
+	var warmupMessageData wupModel.WarmupMessage
+	var warmupData []wupModel.WarmupElement
+	var wupElement wupModel.WarmupElement
+	wupElement.IP, wupElement.Port = selfUtils.GetIpAndPortFromRemoteAddr(s.RemoteAddr().String())
+	wupElement.Status = true
+	wupElement.Version = pongMsg
+	warmupData = append(warmupData, wupElement)
+	// Make warup sting
+	warmupMessageData.EventTime = time.Now().Unix()
+	warmupMessageData.Data = warmupData
+	warmupMessageData.WupType = "ping"
+	warmupMessageString, _ := warmupMessageData.GetJsonString()
+	// push to message queue
+	var mq messagequeue.MQ
+	mq.PushMsgByTopic(&conf, warmupMessageString, conf.MQ.WarmUpTopic)
+}
+
 func SendUpdate(s socketio.Conn) {
 	// send to control update message
 	log.Println("Need update...")
@@ -246,13 +269,6 @@ func SendUpdate(s socketio.Conn) {
 	log.Println("Send update...")
 	s.Emit(socket_event.UpdateWorker, updateInfoStr)
 }
-
-
-
-
-
-
-
 
 
 

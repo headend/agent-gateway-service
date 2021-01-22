@@ -67,8 +67,12 @@ github.com/headend/iptv-agent-service v0.0.0-20201230183453-fd62bfd46464 h1:xmeM
 github.com/headend/iptv-agent-service v0.0.0-20201230183453-fd62bfd46464/go.mod h1:tUmaSTRdIDLoeyCitgGb6wQv+HGNHND6UKQ/cOj8u24=
 github.com/headend/iptv-agent-service v0.0.0-20210118213950-267c0458b5a5 h1:1H3s9b7SK8GZCOZM6X7QcIU6yyMw10/2gX8UeC54oTo=
 github.com/headend/iptv-agent-service v0.0.0-20210118213950-267c0458b5a5/go.mod h1:tUmaSTRdIDLoeyCitgGb6wQv+HGNHND6UKQ/cOj8u24=
+github.com/headend/iptv-agent-service v0.0.0-20210120165311-5b0db00431e0 h1:yscAX495X6RYLh+BTk0OzExOCsm0Pv8tYKWnsb0+e6s=
+github.com/headend/iptv-agent-service v0.0.0-20210120165311-5b0db00431e0/go.mod h1:tUmaSTRdIDLoeyCitgGb6wQv+HGNHND6UKQ/cOj8u24=
 github.com/headend/iptv-logging-service v0.0.0-20210117160641-5593e8488c14 h1:uLbBNSHOk2fPVKmacHACV+zZ1FH0/BoOZEpcrq4CwCA=
 github.com/headend/iptv-logging-service v0.0.0-20210117160641-5593e8488c14/go.mod h1:Eidemg7moaygosCU1RETboc+g6dAVcEdWcEGnWDd1pY=
+github.com/headend/iptv-logging-service v0.0.0-20210120155012-450cd0d84e74 h1:Bd+6i00LyULZL9AKPQo8XsoxDNDoNRnjscNt3F1hbJ0=
+github.com/headend/iptv-logging-service v0.0.0-20210120155012-450cd0d84e74/go.mod h1:Eidemg7moaygosCU1RETboc+g6dAVcEdWcEGnWDd1pY=
 github.com/headend/iptv-monitor-service v0.0.0-20201219075823-b7b90aeaa166/go.mod h1:4clNXM3OznDIhoGCFrqbbfEZ35clLDyvgDhuvLi1N18=
 github.com/headend/share-module v0.0.0-20201218071449-0b7214da2b4b/go.mod h1:dG5PsEogW+v822OBCrAW4ilBqZ9EFtEZ1IZYqEI7Op4=
 github.com/headend/share-module v0.0.0-20201219064024-aec69e082ab5/go.mod h1:dG5PsEogW+v822OBCrAW4ilBqZ9EFtEZ1IZYqEI7Op4=
@@ -96,6 +100,8 @@ github.com/headend/share-module v0.0.0-20210117151601-695ed34460a4 h1:wseBr8GKXl
 github.com/headend/share-module v0.0.0-20210117151601-695ed34460a4/go.mod h1:TU976y0Ri1JwpqqNC4IZUKnod9WwjwMNbOZbEnbqDbs=
 github.com/headend/share-module v0.0.0-20210118160837-5bbb000b65fb h1:EqvNwyi72/Vp4pRtU5V1VkpnRQVzMV2raTYgC8QnAro=
 github.com/headend/share-module v0.0.0-20210118160837-5bbb000b65fb/go.mod h1:TU976y0Ri1JwpqqNC4IZUKnod9WwjwMNbOZbEnbqDbs=
+github.com/headend/share-module v0.0.0-20210120170123-1d1d3cc4f46f h1:4FqcQCpBe5x+FhjjC3dsCZJaq1h6OVOBfxw8rHawtmA=
+github.com/headend/share-module v0.0.0-20210120170123-1d1d3cc4f46f/go.mod h1:TU976y0Ri1JwpqqNC4IZUKnod9WwjwMNbOZbEnbqDbs=
 github.com/hpcloud/tail v1.0.0/go.mod h1:ab1qPbhIpdTxEkNHXyeSf5vhxWSCs/tWer42PpOxQnU=
 github.com/jinzhu/gorm v1.9.16/go.mod h1:G3LB3wezTOWM2ITLzPxEXgSkOXAntiLHS7UdBefADcs=
 github.com/jinzhu/inflection v1.0.0/go.mod h1:h+uFLlag+Qp1Va5pdKtLDYj+kHp5pxUVkryuEj+Srlc=
@@ -207,6 +213,8 @@ google.golang.org/genproto v0.0.0-20210114201628-6edceaf6022f h1:izedQ6yVIc5mZsR
 google.golang.org/genproto v0.0.0-20210114201628-6edceaf6022f/go.mod h1:FWY/as6DDZQgahTzZj3fqbO1CbirC29ZNUFHwi0/+no=
 google.golang.org/genproto v0.0.0-20210119180700-e258113e47cc h1:tsmkSntchraIEmbGgYaZGZ8LVIidKCWEmPwEnSQSalA=
 google.golang.org/genproto v0.0.0-20210119180700-e258113e47cc/go.mod h1:FWY/as6DDZQgahTzZj3fqbO1CbirC29ZNUFHwi0/+no=
+google.golang.org/genproto v0.0.0-20210120162456-f5e8c5e2aaf2 h1:5SVh73Qofuzb+K5wbIiNyDFK6+hjPfVD9DStL2dAiDM=
+google.golang.org/genproto v0.0.0-20210120162456-f5e8c5e2aaf2/go.mod h1:FWY/as6DDZQgahTzZj3fqbO1CbirC29ZNUFHwi0/+no=
 google.golang.org/grpc v1.19.0/go.mod h1:mqu4LbDTu4XGKhr4mRzUsmM4RtVoemTSY81AxZiDr8c=
 google.golang.org/grpc v1.23.0/go.mod h1:Y5yQAOtifL1yxbo5wqy6BxZv8vAUGQwXBOALyacEbxg=
 google.golang.org/grpc v1.25.1/go.mod h1:c3i+UQWmh7LiEpx4sFZnkU36qjEYZ0imhYfXVyQciAY=
