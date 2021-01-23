@@ -58,6 +58,7 @@ func MakeLogInDataRequest(onProfileChangeStatus agentModel.ProfileChangeStatus, 
 		AfterAudioStatus:   onProfileChangeStatus.NewAudioStatus,
 		Description:        desc,
 	}
+	log.Printf("%#v", logData)
 	return logData
 }
 
