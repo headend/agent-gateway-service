@@ -31,15 +31,15 @@ func MakeLogInDataRequest(onProfileChangeStatus agentModel.ProfileChangeStatus, 
 	var desc string
 	switch onProfileChangeStatus.NewStatus {
 	case 0:
-		desc = fmt.Sprintf("Channel %s with ip %s DOWN on host %s id %s", monitorInfo.ChannelName, monitorInfo.MulticastIp, monitorInfo.IpControl, monitorInfo.AgentId)
+		desc = fmt.Sprintf("Channel %s with ip %s DOWN on host %s id %d", monitorInfo.ChannelName, monitorInfo.MulticastIp, monitorInfo.IpControl, monitorInfo.AgentId)
 	case 1:
-		desc = fmt.Sprintf("Channel %s with ip %s UP on host %s id%s", monitorInfo.ChannelName, monitorInfo.MulticastIp, monitorInfo.IpControl, monitorInfo.AgentId)
+		desc = fmt.Sprintf("Channel %s with ip %s UP on host %s id %d", monitorInfo.ChannelName, monitorInfo.MulticastIp, monitorInfo.IpControl, monitorInfo.AgentId)
 	case 2:
-		desc = fmt.Sprintf("Channel %s with ip %s NoVideo on host %s id %s", monitorInfo.ChannelName, monitorInfo.MulticastIp, monitorInfo.IpControl, monitorInfo.AgentId)
+		desc = fmt.Sprintf("Channel %s with ip %s NoVideo on host %s id %d", monitorInfo.ChannelName, monitorInfo.MulticastIp, monitorInfo.IpControl, monitorInfo.AgentId)
 	case 3:
-		desc = fmt.Sprintf("Channel %s with ip %s NoAudio on host %s id %s", monitorInfo.ChannelName, monitorInfo.MulticastIp, monitorInfo.IpControl, monitorInfo.AgentId)
+		desc = fmt.Sprintf("Channel %s with ip %s NoAudio on host %s id %d", monitorInfo.ChannelName, monitorInfo.MulticastIp, monitorInfo.IpControl, monitorInfo.AgentId)
 	default:
-		desc = fmt.Sprintf("Channel %s with ip %s Unknow on host %s id %s", monitorInfo.ChannelName, monitorInfo.MulticastIp, monitorInfo.IpControl, monitorInfo.AgentId)
+		desc = fmt.Sprintf("Channel %s with ip %s Unknow on host %s id %d", monitorInfo.ChannelName, monitorInfo.MulticastIp, monitorInfo.IpControl, monitorInfo.AgentId)
 	}
 	logData := loggingpb.MonitorLogsRequest{
 		AgentId:            monitorInfo.AgentId,
@@ -58,7 +58,7 @@ func MakeLogInDataRequest(onProfileChangeStatus agentModel.ProfileChangeStatus, 
 		AfterAudioStatus:   onProfileChangeStatus.NewAudioStatus,
 		Description:        desc,
 	}
-	log.Printf("%#v", logData)
+	//log.Printf("%#v", logData)
 	return logData
 }
 
