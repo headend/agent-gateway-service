@@ -76,8 +76,18 @@ func main() {
 			if err2 != nil {
 				log.Println(err)
 			}
-			// do write log
+			/*
+			Write log to DB and queue
+			 */
+			//Make log data
 			logData := selfUtils.MakeLogInDataRequest(onProfileChangeStatus, monitorInfo)
+			logDataString := selfUtils.GetMonitorLoggingJson(&logData)
+			// send to message queue
+			go func() {
+				var MQ messagequeue.MQ
+				MQ.PushMsgByTopic(&conf, logDataString,conf.MQ.MonitorLogsTopic)
+			}()
+			// do write log
 			log.Println("Write log")
 			selfUtils.DoWriNonitorLog(conf, logData)
 		}()

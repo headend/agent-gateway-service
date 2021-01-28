@@ -1,8 +1,10 @@
 package utils
 
 import (
+	"bytes"
 	"context"
 	"fmt"
+	"github.com/golang/protobuf/jsonpb"
 	agentpb "github.com/headend/iptv-agent-service/proto"
 	loggingpb "github.com/headend/iptv-logging-service/proto"
 	"github.com/headend/share-module/configuration"
@@ -62,3 +64,9 @@ func MakeLogInDataRequest(onProfileChangeStatus agentModel.ProfileChangeStatus, 
 	return logData
 }
 
+func GetMonitorLoggingJson(in *loggingpb.MonitorLogsRequest) string {
+	buf := &bytes.Buffer{}
+	jsonMarshaller := jsonpb.Marshaler{}
+	_ = jsonMarshaller.Marshal(buf, in)
+	return string(buf.Bytes())
+}
